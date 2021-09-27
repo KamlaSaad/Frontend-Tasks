@@ -1,0 +1,109 @@
+<html>
+  <head>
+      <title>Clock</title>
+      <style>
+          .clock {
+              width: 200px;
+              height: 200px;
+              margin: 60px auto;
+              background: url('clock.png');
+              border-radius: 50%;
+              border: 15px solid #fff;
+              box-shadow:inset 0 0 10px rgba(0, 0, 0, 0.2), 0 7px 7px rgba(0, 0, 0, 0.3),0 0 0 3px #fff;
+              background-size: cover;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+          }
+          .clock::before {
+              content: '';
+              width: 15px;
+              height: 15px;
+              border-radius: 50%;
+              background-color: #848484;
+              position: absolute;
+              z-index: 13;
+          }
+          .hour,.min,.sec{position: absolute}
+          .hour,.h{
+              width: 105px;
+              height: 105px;
+          }
+          .min,.m{
+              width: 125px;
+              height: 125px;
+          }
+          .sec,.s{
+              width: 140px;
+              height: 140px;
+          }
+          .h,.m,.s{
+              display: flex;
+              position: absolute;
+              border-radius: 50%;
+              justify-content: center;
+          }
+          .h:before{
+              content: "";
+              /*top: 30px;*/
+              width: 6px;
+              height: 45px;
+              z-index: 10;
+              position: absolute;
+              background: #848484;
+              border-radius: 6px 6px 0 0;
+          }
+          .m:before{
+              content: "";
+              /*top: 30px;*/
+              width: 4px;
+              height: 60px;
+              z-index: 11;
+              position: absolute;
+              background: #d6d6d6;
+              border-radius: 6px 6px 0 0;
+          }
+          .s:before{
+              content: "";
+              /*top: 50px;*/
+              width: 2px;
+              height: 90px;
+              z-index: 12;
+              position: absolute;
+              background: #ff6767;
+              border-radius: 6px 6px 0 0;
+          }
+      </style>
+  </head>
+  <body>
+      <div class="clock">
+          <div class="hour">
+              <div class="h" id="h"></div>
+          </div>
+          <div class="min">
+              <div class="m" id="m"></div>
+          </div>
+          <div class="sec">
+              <div class="s" id="s"></div>
+          </div>
+      </div>
+  <script>
+    let hour = document.getElementById('h'),
+        minute = document.getElementById('m'),
+        second = document.getElementById('s');
+    var interval1;
+    var refresh=false;
+    function clock(){
+       let date=new Date();
+       let h=date.getHours()*30;
+       let m=date.getMinutes()*6;
+       let s=date.getSeconds()*6;
+       hour.style.transform=`rotateZ(${h+(m/12)}deg)`;
+       minute.style.transform=`rotateZ(${m}deg)`;
+       second.style.transform=`rotateZ(${s}deg)`;
+    }
+    setInterval(clock);
+  </script>
+  </body>
+</html>
