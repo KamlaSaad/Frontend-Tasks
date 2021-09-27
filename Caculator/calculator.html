@@ -1,0 +1,160 @@
+<html>
+    <head>
+        <title>Js Calc</title>
+        <style>
+            .calc{
+                width: 250px;
+                padding: 8px;
+                margin: 40px auto;
+                background: #d00;
+                border-radius: 8px;
+                text-align: center;
+            }
+            .calc >div{
+                border: 1px solid #fff;
+                border-radius: 8px;
+                padding: 8px;
+                margin: 6px;
+                position: relative;
+            }
+            .calc input{
+                width: 220px;
+                height: 40px;
+                font-size: 18px;
+                padding-left: 10px;
+                border-radius: 8px;
+            }
+            .calc span{
+                position: absolute;
+                top: 10px;
+                background: #000;
+                float: right;
+                font-size: 20px;
+                margin-left: -40px;
+            }
+            .calc button{
+                border: none;
+                width: 35px;
+                cursor: pointer;
+                border-radius: 5px;
+                font-size: 18px;
+                font-weight: bold;
+                background: #fff;
+                padding: 10px;
+                height: 34px;
+            }
+            .calc table .xw{
+                width: 77px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="calc">
+            <div>
+                <input type="text" id="val">
+                <span id="result"></span>
+            </div>
+            <div>
+                <table cellspacing="6">
+                    <tr>
+                        <td>
+                            <button class="num">7</button>
+                        </td>
+                        <td>
+                            <button class="num">8</button>
+                        </td>
+                        <td>
+                            <button class="num">9</button>
+                        </td>
+                        <td colspan="2">
+                            <button class="xw" id="clear">Clear</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="num">4</button>
+                        </td>
+                        <td>
+                            <button class="num">5</button>
+                        </td>
+                        <td>
+                            <button class="num">6</button>
+                        </td>
+                        <td>
+                            <button class="num">*</button>
+                        </td>
+                        <td>
+                            <button class="num">/</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button class="num">1</button>
+                        </td>
+                        <td>
+                            <button class="num">2</button>
+                        </td>
+                        <td>
+                            <button class="num">3</button>
+                        </td>
+                        <td>
+                            <button class="num">+</button>
+                        </td>
+                        <td>
+                            <button  class="num">-</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="xw num">0</button>
+                        </td>
+                        <td>
+                            <button class="num">.</button>
+                        </td>
+                        <td colspan="2">
+                            <button class="xw" id="equal">=</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <span id="code"></span>
+        <script>
+            //caculator.....
+            var nums=document.getElementsByClassName('num'),
+            remove=document.getElementById('clear'),
+            myResult=document.getElementById('val'),
+            result2=document.getElementById('result'),
+            equals=document.getElementById('equal');
+            for(var i=0;i<nums.length;i++){ nums[i].addEventListener('click',function(){
+                    myResult.value+=this.innerHTML;
+                });
+            }
+            remove.onclick=function(){
+                myResult.value="";
+            }
+            equals.onclick=function(){
+                myResult.value=eval(myResult.value);
+            }
+            function backspace(){
+                myResult.value
+                .substring(0,myResult.value.length-1);
+            }
+            /* 
+            //keyboard
+            document.onkeydown(function(e){
+                var click=e.keyCode;
+                if(click==187){
+                     myResult.value=
+                         eval(myResult.value);
+                }
+                else if(click==8){
+                    myResult.value
+                .substring(0,myResult.value.length-1);
+                }
+            });
+            */
+
+        </script>
+    </body>
+</html>
