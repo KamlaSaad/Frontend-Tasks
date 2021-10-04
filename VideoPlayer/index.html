@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 Task</title>
+    <style>
+        body {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .container {
+            width: 50%;
+            margin: 100px auto;
+
+        }
+
+        #colors label {
+            width: 40px;
+            display: inline-block;
+        }
+
+        #colors input {
+            width: 250px;
+        }
+
+        #red {
+            background: #d00;
+        }
+
+        #blue {
+            background: #00d;
+        }
+
+        #green {
+            background: #0d0;
+        }
+
+        #control {
+            width: 480px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="colors">
+            <label>Red</label>
+            <input type="range" value="0" min="0" max="255" id="red"><br>
+            <label>Blue</label>
+            <input type="range" value="0" min="0" max="255" id="blue"><br>
+            <label>Green</label>
+            <input type="range" value="0" min="0" max="255" id="green"><br>
+            <p id="txt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam a, qui eligendi neque
+                recusandae
+                numquam voluptate provident dolores nesciunt quis quisquam illum laudantium magnam cumque non voluptatum
+                optio deserunt quasi?</p>
+        </div>
+        <video src="gama.mp4" type="video/mp4" width="560" height="460" id="video" controls></video>
+        <input type="range" value="0" min="0" id="control" step="0.01" max="3.45">
+        <span id="s1">0.00</span><span id="s2">/3:45</span><br>
+        <br><button id="play">Play</button>
+        <button id="min2">&lt;&lt;</button>
+        <button id="min">&lt;</button>
+        <button id="plus">&gt;</button>
+        <button id="plus2">&gt;&gt;</button>
+        <button id="mute">Mute</button>
+        <button id="stop">Stop</button><br><br>
+        <label>Speed</label>
+        <input type="range" value="1" min="1" max="16" id="speed" step="1">
+        <label>Volume</label>
+        <input type="range" value="1" min="0" max="1" id="volume" step="1">
+    </div>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //colors
+            $("#red").change(function () {
+                $("#txt").css("color", "rgb(" + $(this).val() + ",0,0)");
+            });
+            $("#blue").change(function () {
+                $("#txt").css("color", "rgb(0,0," + $(this).val() + " )");
+            });
+            $("#green").change(function () {
+                $("#txt").css("color", "rgb(0," + $(this).val() + ",0 )");
+            });
+
+            //video controls
+            var max = 3.45,
+                ctime = $("video").get(0).currentTime
+                , conrolInterval;
+            $("#control").attr("max", max);
+            $("#control").change(function () {
+                var v = $("#video").get(0).currentTime / 60;
+                inCre(v);
+            });
+            $("#volume").change(function () {
+                $("video").get(0).volume = $(this).val();
+            });
+            $("#speed").change(function () {
+                $("video").get(0).playbackRate = $(this).val();
+            });
+            $('#play').click(function () {
+                conrolInterval = setInterval(function () {
+                    $('#control').val($("video").get(0).currentTime / 60);
+                    if ($("video").get(0).ended == true) { clearInterval(conrolInterval) }
+                }, 10);
+                var seconds, minuts, remainSeconds;
+                var s = setInterval(function () {
+                    seconds = $("video").get(0).currentTime;
+                    minuts = Math.floor(seconds / 60);
+                    remainSeconds = seconds % 60;
+                    if (remainSeconds < 10) { remainSeconds = "0" + remainSeconds }
+                    else if ($("video").get(0).ended == true) { clearInterval(s) }
+                    remainSeconds = remainSeconds.toString().slice(0, 2);
+                    $('#s1').html(minuts + ":" + remainSeconds);
+                }, 100);
+                var txt = $(this).text().trim();
+                if (txt == "Play") {
+                    console.log(max);
+                    $("#video").get(0).play();
+                    $(this).text("Pause");
+                } else {
+                    $("#video").get(0).pause();
+                    $(this).text("Play");
+                }
+            });
+            $('#mute').click(function () {
+                var txt = $(this).text().trim();
+                if (txt == "Mute") {
+                    $("#video").get(0).muted = true;
+                    $(this).text("UnMute");
+                } else {
+                    $("#video").get(0).muted = false;
+                    $(this).text("Mute");
+                }
+            });
+            $('#stop').click(function () {
+                $("#video").get(0).pause();
+                $("#video").get(0).currentTime = 0;
+                $('#control').val(0);
+                $('#play').text("Play");
+            });
+            var cT;
+            $('#plus').click(function () {
+                inCre(0.2);
+            });
+            $('#plus2').click(function () {
+                inCre(0.4);
+            });
+            $('#min').click(function () {
+                deCre(0.2);
+            });
+            $('#min2').click(function () {
+                deCre(0.4)
+            });
+            function inCre(val) {
+                cT = $("video").get(0).currentTime / 60;
+                $('#control').val(cT + val);
+                $("#video").get(0).currentTime = $('#control').val() * 60;
+            }
+            function deCre(val) {
+                cT = $("video").get(0).currentTime / 60;
+                $('#control').val(cT - val);
+                $("#video").get(0).currentTime = $('#control').val() * 60;
+            }
+
+        });
+        // var video = document.getElementById("video"),
+        //     play = document.getElementById("play");
+        // play.onclick(function () {
+        //     console.log(video.duration);
+        //     if (this.innerHTML == "Play") {
+        //         this.innerHTML == "Pause"
+        //         video[0].play();
+        //     }
+        //     else {
+        //         this.innerHTML = "Play";
+        //         video[0].pause();
+        //     }
+        // });
+        var coloor = document.getElementById("red"),
+            txt = document.getElementById("txt");
+        coloor.onchange = function () {
+            txt.style.color = "rgb(" + coloor.value + ",0,0)";
+        }
+    </script>
+</body>
+
+</html>
